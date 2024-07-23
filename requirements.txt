@@ -1,0 +1,10 @@
+flask
+apscheduler
+requests
+schedule
+logging
+bs4
+pymongo
+certifi
+bson
+sendgrid
