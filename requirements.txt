@@ -3,8 +3,8 @@ apscheduler
 requests
 schedule
 bs4
-pymongo
+pymongo==4.2.0
+bson==0.5.10
 certifi
-bson
 sendgrid
 python-dotenv
