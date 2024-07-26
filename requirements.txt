@@ -3,8 +3,8 @@ apscheduler
 requests
 schedule
 bs4
-bson==0.5.10
-pymongo==4.8.0
+pymongo==3.11.4
+bson
 gunicorn==20.1.0
 certifi
 sendgrid
