@@ -11,7 +11,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-mongouri = os.getenv('MONGO_URI')
+mongouri = os.getenv('MDB')
 
 app = Flask(__name__)
 scheduler = BackgroundScheduler()

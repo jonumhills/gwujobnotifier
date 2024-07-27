@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-mongouri = os.getenv('MONGO_URI')
+mongouri = os.getenv('MDB')
 # Send a ping to confirm a successful connection
 try:
     # Create a new client and connect to the server

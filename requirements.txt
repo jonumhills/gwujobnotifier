@@ -3,7 +3,8 @@ apscheduler
 requests
 schedule
 bs4
-pymongo==4.4.1
+pymongo[srv]
+#pymongo==4.4.1
 bson
 gunicorn==20.1.0
 certifi
