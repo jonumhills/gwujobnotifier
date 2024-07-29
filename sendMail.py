@@ -12,7 +12,7 @@ def mail(messages):
     """
     message = Mail(
         from_email='gwunonfwsnotifier@gmail.com',
-        to_emails=['sreevaishnavirao.bommena@gwmail.gwu.edu','manoj.srinivasa@gwu.edu','murudeshwar.2021@gmail.com'],
+        to_emails=['krswathi2012@gmail.com','vaibhav25vemula23@gmail.com','sreevaishnavirao.bommena@gwmail.gwu.edu','manoj.srinivasa@gwu.edu','murudeshwar.2021@gmail.com'],
         subject='Test Subject',
         html_content="#####".join(map(str, messages))
     )
