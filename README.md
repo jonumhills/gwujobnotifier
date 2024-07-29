@@ -1,2 +1,2 @@
 # gwujobnotifier
-Project is intended to notify students about new job postings in the GWU website, notifications will be sent to their email as soon as a job is posted on the website
+The GWU Job Posting Notification System is designed to streamline the process of notifying students about new job postings on the George Washington University (GWU) website. As soon as a job is posted, registered students will receive email notifications, ensuring they stay updated with the latest opportunities
