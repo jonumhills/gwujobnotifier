@@ -8,4 +8,4 @@ gunicorn==20.1.0
 certifi
 sendgrid
 python-dotenv
-flaskMail
+flask_mail
