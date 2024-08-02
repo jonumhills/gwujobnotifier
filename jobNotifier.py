@@ -102,8 +102,7 @@ def scrapeJobs():
       notifyJobs = []
       messageHtml = ''
       for i in jobs:
-         #make it not in
-         if i["Job Description"]  in jDFromMDB:
+         if i["Job Description"] not in jDFromMDB:
             notifyJobs.append(i)
       collection.delete_many({})
       collection.insert_many(json.loads(jobsJson))  
