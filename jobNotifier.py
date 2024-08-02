@@ -119,7 +119,9 @@ def scrapeJobs():
             <li><b>Job Description:</b>"+job['Job Description']+ "</li> \
             </ul>\
             </div>"
-      sendMsg(messageHtml)
+         sendMsg(messageHtml)
+      else:
+         print("No new jobs posted Time = "+str(datetime.now()))
 
     except Exception as e:
       print("error:",e)
