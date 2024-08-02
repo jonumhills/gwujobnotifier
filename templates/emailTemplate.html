@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .styled-link:hover {
+        color: red; /* Change color to red on hover */
+      }
+    </style>
+  </head>
+  <body>
+    {{ Jobs|safe }}
+    <a href="{{ JobLink }}" class="styled-link">LINK TO APPLY</a>
+  </body>
+</html>

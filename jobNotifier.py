@@ -9,22 +9,39 @@ import certifi
 from sendMail import mail
 import os
 from dotenv import load_dotenv
+from flaskMail import app,send_mail
+from datetime import datetime
 
 load_dotenv()
 mongouri = os.getenv('MONGO_URI')
+jobLink = os.getenv('GWU_NONFWS_JOBLINK')
 
 app = Flask(__name__)
 scheduler = BackgroundScheduler()
 
+def sendMsg(messageHtml):
+   recipients = ['gwunonfwsnotifier@gmail.com']
+   subject = 'New Job Posted | Non-FWS '
+   html_body = 'emailTemplate.html'
+   context = {
+         'Jobs' : messageHtml,
+         'JobLink' : jobLink,
+      }
+   bcc = []
+   with open('emailId.txt', 'r') as file:
+        for email in file:    
+            bcc.append(email.strip())
+
+      # Send email
+   send_mail(subject, recipients, html_body, bcc, **context)
+   print("Mails sent at: "+str(datetime.now()))
+   
 def scrapeJobs():
     # Your job scraping logic here
     print("Running scrapeJobs...")
     try:
       print("Scraping jobs...")
-      # URL of the webpage you want to scrape
-      url = 'https://gwu-studentemployment.peopleadmin.com/postings/search?utf8=%E2%9C%93&query=&query_v0_posted_at_date=&1387%5B%5D=5&commit=Search'
-      # Send a GET request to the URL
-      response = requests.get(url)
+      response = requests.get(jobLink)
       jobs = []
       jobsJson = json.dumps({})
       jDFromMDB = []
@@ -49,24 +66,8 @@ def scrapeJobs():
               job_descriptions = [description_element.get_text(strip=True) for description_element in description_elements]
 
 
-              # Print the job titles and descriptions
-              # if job_titles:
-              #     print("Job Titles:")
-              #     # for i in  range(len(job_titles)):
-              #         # print(f"- {job_titles[i]}")
-
-              # else:
-              #     print("No job titles found")
-
               if job_descriptions:
-                  # print("Job Descriptions:")
                   for job_description in job_descriptions:
-                      # print(f"- {job_description}")
-                      # jobs[job_description] = {"JOB TITLE":job_titles[0],
-                      #                         "NO OF POS":job_titles[1],
-                      #                         "DEPT":job_titles[3],
-                      #                         "JOB TYPE":job_titles[4],
-                      #                         "CLOSING DATE":job_titles[5]}
                       jbDict = {"Job Description": job_description, "Job Title": job_titles[0], "No of Positions": job_titles[1], "Department": job_titles[3], "Job Type": job_titles[4], "Closing Date": job_titles[5]}
                       jobs.append(jbDict)
 
@@ -78,25 +79,19 @@ def scrapeJobs():
           try:
             # Create a new client and connect to the server
             client = pymongo.MongoClient(mongouri, tlsCAFile=certifi.where())
-            print("Did the connection")
-            print(client.list_database_names())
+            print("MongoDB connection successfull")
+            # print(client.list_database_names())
             db = client["jobs"]
 
             # Specify the collection name
             collection_name = "gwu"
             collection = db[collection_name]
 
-            # Query the collection
-            # You can use find() to get all documents or add a query filter
-            # For example, to get all documents:
             documents = collection.find()
 
             documentsList = list(documents)
             for i in documentsList:
                 jDFromMDB.append(i['Job Description'])
-            # print("-----Data from MongoDB-----")
-            # print(jDFromMDB)
-            # print("---------------------------")
           except Exception as e:
             print(e)
 
@@ -104,20 +99,29 @@ def scrapeJobs():
           print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
 
       jobsJson = json.dumps(jobs)
-    #   print("------Data from Website------")
-    #   print(jobsJson)
-    #   print("-----------------------------")
       notifyJobs = []
+      messageHtml = ''
       for i in jobs:
-         if i["Job Description"] not in jDFromMDB:
+         #make it not in
+         if i["Job Description"]  in jDFromMDB:
             notifyJobs.append(i)
       collection.delete_many({})
       collection.insert_many(json.loads(jobsJson))  
       if len(notifyJobs) > 0 :
-         print("Notify")
-         mail(notifyJobs)
-      # print(type(jobs))
-      # print(next(iter(jobs.items())))  # Print a newline for better readability
+         for job in notifyJobs:
+            messageHtml = messageHtml+"<div> \
+            <h2> Job Details </h2> \
+            <ul> \
+            <li><b>Job Title:</b> "+ job['Job Title'] + " </li> \
+            <li><b>No of Positions:</b>"+ job['No of Positions'] + "</li> \
+            <li><b>Department:</b>"+ job['Department'] + "</li> \
+            <li><b>Job Type:</b>"+ job['Job Type'] + "</li> \
+            <li><b>Closing Date:</b>"+ job['Closing Date'] + "</li>\
+            <li><b>Job Description:</b>"+job['Job Description']+ "</li> \
+            </ul>\
+            </div>"
+      sendMsg(messageHtml)
+
     except Exception as e:
       print("error:",e)
       print(f"Error scraping jobs: {e}")
