@@ -5,7 +5,7 @@ The GWU Job Posting Notification System is designed to streamline the process of
 ![JobNotifierArchitecture](https://github.com/jonumhills/gwujobnotifier/blob/main/JobNotifierArchitecture.png)
 
 
-#To run and deploy in Heroku
+# To run and deploy in Heroku
 1. Fork the repository in your github and use vs code to make edits in local.
 2. Create Heroku Account and buy Dynos to run a server.
 3. Create a new email (preferably gmail) only for sending out job notifications.
