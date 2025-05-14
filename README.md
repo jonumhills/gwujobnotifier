@@ -12,12 +12,12 @@ The GWU Job Posting Notification System is designed to streamline the process of
 4. Create APP Name and APP Password for the above email over https://myaccount.google.com/apppasswords, Use this app password as your SMTP password.
 5. Add the created gmail and above password to MAIL_USERNAME, MAIL_PASSWORD in the env
 6. Create MongoDB Database with Collection name "gwu" and with following fields
-    "Job Description": string
-    "Job Title": string
-    "No of Positions": string 
-    "Department": string
-    "Job Type": string
-    "Closing Date": string
+    "Job Description": string \n
+    "Job Title": string \n
+    "No of Positions": string \n 
+    "Department": string \n
+    "Job Type": string \n
+    "Closing Date": string \n
 7. Choose connection string for python driver from mongodb and add it to env MONGO_URI
 8. Now deploy the gwujobnotifier folder to heroku by following https://devcenter.heroku.com/articles/getting-started-with-python#set-up
 
