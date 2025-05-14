@@ -20,5 +20,6 @@ The GWU Job Posting Notification System is designed to streamline the process of
     "Closing Date": string <br>
 7. Choose connection string for python driver from mongodb and add it to env MONGO_URI
 8. Now deploy the gwujobnotifier folder to heroku by following https://devcenter.heroku.com/articles/getting-started-with-python#set-up
+9. Add new emails whom you want to send notifications to in emailId.txt
 
 
